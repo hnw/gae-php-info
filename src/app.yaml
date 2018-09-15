@@ -1,14 +1,8 @@
-runtime: php55
-api_version: 1
-
-automatic_scaling:
-  min_idle_instances: automatic
-  max_idle_instances: 1
-  min_pending_latency: 1000ms
-  max_pending_latency: automatic
+runtime: php72
+entrypoint: serve index.php
 
 handlers:
 - url: /
-  script: index.php
-- url: /([a-z]+\.php)$
-  script: \1
+  script: auto
+- url: /.*\.php
+  script: auto

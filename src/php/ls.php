@@ -1,6 +1,7 @@
 <?php
 
 $PATH_TO_CAT_PHP = "/cat.php";
+$PATH_TO_LS_PHP = "/ls.php";
 
 function perm_to_str($perms) {
 
@@ -55,6 +56,7 @@ function perm_to_str($perms) {
 }
 
 $path = isset($_GET['path']) ? $_GET['path'] : ".";
+$path = preg_replace('#/+#', '/', $path);
 
 echo "<html><pre><code style=\"font-family: Consolas, 'Courier New', Courier, Monaco, monospace;\">\n";
 if (file_exists($path)) {
@@ -70,11 +72,11 @@ if (file_exists($path)) {
         }
         $filename = $fileInfo->getFilename();
         if ($fileInfo->isDot()) {
-            if ($filename === ".." && $path !== ".") {
-                $filename = sprintf('<a href="%s?path=%s">%s</a>', $_SERVER["SCRIPT_NAME"], dirname($path) , $filename);
+            if ($filename === "..") {
+                $filename = sprintf('<a href="%s?path=%s">%s</a>', $PATH_TO_LS_PHP, dirname($path) , $filename);
             }
         } elseif ($fileInfo->isDir()) {
-            $filename = sprintf('<a href="%s?path=%s/%s">%s</a>', $_SERVER["SCRIPT_NAME"], $path , $filename, $filename);
+            $filename = sprintf('<a href="%s?path=%s/%s">%s</a>', $PATH_TO_LS_PHP, $path , $filename, $filename);
         } elseif ($fileInfo->isFile()) {
             $filename = sprintf('<a href="%s?path=%s/%s">%s</a>', $PATH_TO_CAT_PHP, $path , $filename, $filename);
         }
