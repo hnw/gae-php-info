@@ -1,8 +1,7 @@
-runtime: php72
-entrypoint: serve index.php
+runtime: php55
 
 handlers:
 - url: /
-  script: auto
-- url: /.*\.php
-  script: auto
+  script: php/index.php
+- url: /(.*\.php)
+  script: php/\1
